@@ -215,9 +215,11 @@ export class ServerRMQ extends Server<RmqEvents, RmqStatus> {
         'exchangeType',
         'topic',
       );
-      await channel.assertExchange(exchange, exchangeType, {
-        durable: true,
-      });
+      await channel.assertExchange(exchange, exchangeType, this.getOptionsProp(
+        this.options,
+        'exchangeArguments',
+        { durable: true },
+      ));
 
       if (this.options.routingKey) {
         await channel.bindQueue(this.queue, exchange, this.options.routingKey);
