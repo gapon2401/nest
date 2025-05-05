@@ -227,9 +227,11 @@ export class ClientRMQ extends ClientProxy<RmqEvents, RmqStatus> {
         'exchangeType',
         'topic',
       );
-      await channel.assertExchange(exchange, exchangeType, {
-        durable: true,
-      });
+      await channel.assertExchange(exchange, exchangeType, this.getOptionsProp(
+        this.options,
+        'exchangeArguments',
+        { durable: true },
+      ));
     }
 
     await channel.prefetch(prefetchCount, isGlobalPrefetchCount);
